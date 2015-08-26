@@ -1,0 +1,78 @@
+
+D:\activemq\apache-activemq-5.9.0-bin\apache-activemq-5.9.0\bin>set JAVA_HOME=d:\Java\jdk1.6.0_45
+
+D:\activemq\apache-activemq-5.9.0-bin\apache-activemq-5.9.0\bin>activemq
+Java Runtime: Sun Microsystems Inc. 1.6.0_45 d:\Java\jdk1.6.0_45\jre
+  Heap sizes: current=1004928k  free=994439k  max=1004928k
+
+to check if running:
+http://localhost:8161/admin/
+
+to stop:
+cntrl+c
+
+http://activemq.apache.org/hello-world.html
+
+problem:
+
+log4j:WARN No appenders could be found for logger (org.apache.activemq.broker.jmx.ManagementContext).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+
+Those warnings are because the activemq script does not seem to be
+adding ../conf to the classpath so the log4j.properties is not being
+used as part of the initialization.
+
+Solution: Place log4j.properties in the src folder.
+
+problem:
+multiple producers and/or consumers are trying to connect to the mq. uses same port for rmi?
+error:
+
+1. Start the consumer.
+
+ INFO | JMX consoles can connect to service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi
+ INFO | PListStore:[D:\myData\reference\csuc\sem4\csci693\experiments\experiments_workspace\JMS_Tests\activemq-data\localhost\tmp_storage] started
+ INFO | Using Persistence Adapter: KahaDBPersistenceAdapter[D:\myData\reference\csuc\sem4\csci693\experiments\experiments_workspace\JMS_Tests\activemq-data\localhost\KahaDB]
+ INFO | KahaDB is version 5
+ INFO | Recovering from the journal ...
+ INFO | Recovery replayed 2774 operations from the journal in 0.217 seconds.
+ INFO | Apache ActiveMQ 5.9.0 (localhost, ID:Rajeev-PC-50240-1395377304863-0:1) is starting
+ INFO | Apache ActiveMQ 5.9.0 (localhost, ID:Rajeev-PC-50240-1395377304863-0:1) started
+ INFO | For help or more information please see: http://activemq.apache.org
+ERROR | Memory Usage for the Broker (1024 mb) is more than the maximum available for the JVM: 891 mb - resetting to 70% of maximum available: 623 mb
+ WARN | Store limit is 102400 mb, whilst the data directory: D:\myData\reference\csuc\sem4\csci693\experiments\experiments_workspace\JMS_Tests\activemq-data\localhost\KahaDB only has 92584 mb of usable space - resetting to maximum available disk space: 92584 mb
+ INFO | Connector vm://localhost started
+
+2. Then start the producer (or reverse their order)
+
+producer started....
+connection factory created....
+ WARN | Failed to start JMX connector Cannot bind to URL [rmi://localhost:1099/jmxrmi]: javax.naming.NameAlreadyBoundException: jmxrmi [Root exception is java.rmi.AlreadyBoundException: jmxrmi]. Will restart management to re-create JMX connector, trying to remedy this issue.
+ INFO | PListStore:[D:\myData\reference\csuc\sem4\csci693\experiments\experiments_workspace\JMS_Tests\activemq-data\localhost\tmp_storage] started
+ INFO | Using Persistence Adapter: KahaDBPersistenceAdapter[D:\myData\reference\csuc\sem4\csci693\experiments\experiments_workspace\JMS_Tests\activemq-data\localhost\KahaDB]
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+ INFO | Database activemq-data\localhost\KahaDB\lock is locked... waiting 10 seconds for the database to be unlocked. Reason: java.io.IOException: File 'activemq-data\localhost\KahaDB\lock' could not be locked.
+
+
+http://logging.apache.org/log4j/1.2/manual.html
+
+https://www.google.com/search?q=how+to+create+two+instances+of+a+producer+and+consumer+on+the+same+machine+in+activemq&rlz=1C1GGGE_enIN485IN485&oq=how+to+create+two+instances+of+a+producer+and+consumer+on+the+same+machine+in+activemq&aqs=chrome..69i57.28564j0j7&sourceid=chrome&espv=2&es_sm=93&ie=UTF-8
+
+
+http://stackoverflow.com/questions/8194103/how-can-i-read-a-certain-amount-of-bytes-into-a-buffer
+http://stackoverflow.com/questions/7976332/in-java-how-to-read-a-fixed-length-from-the-inputstream-and-save-as-a-file
+https://www.google.com/search?client=ubuntu&channel=fs&q=how+to+ceate+a+byte+message+in+jms&ie=utf-8&oe=utf-8#channel=fs&q=how+to+create+a+byte+message+in+jms&spell=1
+http://docs.oracle.com/javaee/1.4/api/javax/jms/BytesMessage.html
+https://www.google.com/search?client=ubuntu&channel=fs&q=how+to+find+the+number+of+bytes+in+a+jms+message&ie=utf-8&oe=utf-8
+http://pic.dhe.ibm.com/infocenter/wmqv7/v7r5/index.jsp?topic=%2Fcom.ibm.mq.javadoc.doc%2FWMQJMSClasses%2Fcom%2Fibm%2Fjms%2FJMSBytesMessage.html
+http://activemq.apache.org/maven/apidocs/org/apache/activemq/command/ActiveMQBytesMessage.html
+http://books.google.com/books?id=mJ-fT9mVaLYC&pg=PA41&lpg=PA41&dq=how+to+find+the+number+of+bytes+in+a+jms+message&source=bl&ots=xgrWH7inKV&sig=q9RCXNrPXVFE_WZEjdu4Jm8VNIM&hl=en&sa=X&ei=ik8tU8jeO4nZoAT8v4GoBA&ved=0CGkQ6AEwBw#v=onepage&q=how%20to%20find%20the%20number%20of%20bytes%20in%20a%20jms%20message&f=false
+
+chk sizeof for objects in java

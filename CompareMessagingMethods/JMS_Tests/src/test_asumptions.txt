@@ -1,0 +1,6 @@
+the queue was cleared for every test.
+activemq is already started before conducting the tests. time to start it is not included in the calculations.
+the complete round trip time as calculated by the program is considered(why not the packet tracer time?).
+the file size may be different than the bytes/ packets actually transmitted. It might be transferring extra information.
+packet tracer is started just before starting the server and stopped after stopping the client and the server. So the time for each of them to connect to each other and exchange data is calculated. 
+(how do sepearate it out and how to take the readings)
